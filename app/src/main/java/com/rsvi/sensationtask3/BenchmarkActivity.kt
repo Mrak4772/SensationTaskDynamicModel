@@ -1,5 +1,6 @@
 package com.rsvi.sensationtask3
 
+import ai.onnxruntime.NodeInfo
 import android.os.Bundle
 import android.os.Environment
 import android.widget.ProgressBar
@@ -20,6 +21,8 @@ import kotlin.random.Random
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import java.io.FileWriter
 
 class BenchmarkActivity : AppCompatActivity() {
@@ -31,7 +34,7 @@ class BenchmarkActivity : AppCompatActivity() {
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val statusText = findViewById<TextView>(R.id.statusText)
         val recyclerView = findViewById<RecyclerView>(R.id.resultsRecyclerView)
-       // val completionMessage = findViewById<TextView>(R.id.completionMessage)
+        // val completionMessage = findViewById<TextView>(R.id.completionMessage)
 
         // Setup RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -88,8 +91,9 @@ class BenchmarkActivity : AppCompatActivity() {
             }
         }
 
-    }
 
+
+    }
 
     private fun saveResultsToCsv(results: List<BenchmarkResult>) {
         val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -108,42 +112,46 @@ class BenchmarkActivity : AppCompatActivity() {
     }
 
     private fun benchmarkModel(env: OrtEnvironment, modelFile: File): BenchmarkResult {
-        val session = env.createSession(modelFile.absolutePath, OrtSession.SessionOptions())
-        val sessionOptions = OrtSession.SessionOptions()
-
-        // Add execution providers if available
-        try {
-            // For Neural Networks API (NNAPI)
-            sessionOptions.addNnapi()
-        } catch (e: Exception) {
-            println("NNAPI not supported on this device, falling back to default execution provider.")
+        // Create session options and specify execution providers
+        val sessionOptions = OrtSession.SessionOptions().apply {
+            setIntraOpNumThreads(4) // Use 4 threads for intra-operator parallelism
+            try {
+                addNnapi()  // Attempt to add NNAPI execution provider for Android devices
+            } catch (e: Exception) {
+                println("NNAPI not supported. Using CPU execution provider.")
+            }
         }
 
-        try {
-            // For GPU (if supported)
-            sessionOptions.addCPU(false)
+        // Load the model into the session
+        val session = try {
+            env.createSession(modelFile.absolutePath, sessionOptions)
         } catch (e: Exception) {
-            println("GPU not supported on this device, falling back to default execution provider.")
+            throw IllegalArgumentException("Failed to load model: ${modelFile.name}, Error: ${e.message}")
         }
 
-        val inputShape = longArrayOf(1, 3, 640, 800)
-        val totalElements = inputShape.reduce { acc, i -> acc * i }.toInt()
+        // Dynamically retrieve the input shape
+        val inputInfo = session.inputInfo.entries.first() // Get first input entry
+        val inputShape = getInputShape(inputInfo.value) // Get the input shape dynamically
+
+        // Generate random data matching the input shape
+        val totalElements = inputShape.filter { it > 0 }.reduce { acc, i -> acc * i }.toInt()
         val inputData = FloatArray(totalElements) { Random.nextFloat() }
-        val floatBuffer = FloatBuffer.wrap(inputData)
-        val inputTensor = OnnxTensor.createTensor(env, floatBuffer, inputShape)
+        val inputTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(inputData), inputShape)
 
+        // Start performance benchmarking
         val startTime = System.nanoTime()
         repeat(10) {
-            session.run(mapOf("input" to inputTensor))
+            session.run(mapOf(inputInfo.key to inputTensor))  // Run inference
         }
         val endTime = System.nanoTime()
 
+        inputTensor.close()
+        session.close()
+
+        // Calculate performance metrics
         val totalTime = (endTime - startTime) / 1_000_000_000.0
         val averageTime = totalTime / 10
         val fps = 1 / averageTime
-
-        inputTensor.close()
-        session.close()
 
         return BenchmarkResult(
             modelName = modelFile.name,
@@ -152,4 +160,20 @@ class BenchmarkActivity : AppCompatActivity() {
             totalTime = "${"%.4f".format(totalTime)} seconds"
         )
     }
+
+    // Helper function to dynamically fetch the input shape from the input metadata
+    private fun getInputShape(value: Any): LongArray {
+        return when (value) {
+            is NodeInfo -> {
+                val shape = value.info.javaClass.getMethod("getShape").invoke(value.info) as LongArray?
+                shape ?: throw IllegalArgumentException("Input shape is null.")
+            }
+            else -> throw IllegalArgumentException("Unsupported input info type: ${value.javaClass.name}")
+        }
+    }
+
+
+
+
+
 }

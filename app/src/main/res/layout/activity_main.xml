@@ -53,6 +53,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start Performance Test" />
+        <ProgressBar
+            android:id="@+id/downloadProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:max="100"
+            style="?android:attr/progressBarStyleHorizontal"
+
+            />
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="Downloading..." />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

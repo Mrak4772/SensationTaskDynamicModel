@@ -46,8 +46,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.okhttp)
     implementation(libs.onnxruntime.android)
+    implementation(libs.inputmapping)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 
 }
