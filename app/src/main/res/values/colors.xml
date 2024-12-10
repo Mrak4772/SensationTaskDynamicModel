@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary color used for toolbar and buttons -->
+    <color name="colorPrimary">#FF6347</color>
+    <!-- Darker shade for contrast -->
+    <color name="colorPrimaryDark">#FF4500</color>
+    <!-- Accent color for buttons and progress indicators -->
+    <color name="colorAccent">#FFD700</color>
+    <!-- Background color for the app -->
+    <color name="backgroundColor">#282C34</color>
+    <!-- Text color for high contrast -->
+    <color name="whiteTextColor">#FFFFFF</color>
+    <!-- Card view background color -->
+    <color name="cardBackgroundColor">#3A3A3A</color>
+    <!-- Text color for high contrast -->
+    <color name="auroraBlueBackground">#21435E</color> <!-- Light Blue for background -->
+    <color name="auroraItemBackground">#FFBBDEFB</color> <!-- Lighter Blue for item background -->
+    <color name="auroraTextColor">#FFFFFFFF</color> <!-- White Text Color for readability -->
+    <color name="auroraBackground">#FF1E2A43</color> <!-- Dark Blue Background -->
+
+    <color name="auroraBorderColor">#FF0288D1</color> <!-- Border color for the dark blue and light blue backgrounds -->
+    <color name="auroraDarkBlue">#0D47A1</color> <!-- Dark Blue color -->
+    <color name="auroraLightBlue">#BBDEFB</color> <!-- Light Blue color -->
+    <color name="auroraLightTextColor">#FFFFFF</color> <!-- White text color for contrast -->
+    <color name="auroraProgressBarTint">#0288D1</color> <!-- Blue tint for progress bar -->
+
 </resources>
+

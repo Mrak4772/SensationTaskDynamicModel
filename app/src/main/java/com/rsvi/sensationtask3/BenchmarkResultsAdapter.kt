@@ -20,6 +20,7 @@ class BenchmarkResultsAdapter(
         val headerProcessingTime: TextView = view.findViewById(R.id.headerProcessingTime)
         val headerFps: TextView = view.findViewById(R.id.headerFps)
         val headerTotalTime: TextView = view.findViewById(R.id.headerTotalTime)
+        val headerQuantized: TextView = view.findViewById(R.id.headerQuantized)
     }
 
     // ViewHolder for the items
@@ -28,6 +29,7 @@ class BenchmarkResultsAdapter(
         val processingTime: TextView = view.findViewById(R.id.processingTime)
         val fps: TextView = view.findViewById(R.id.fps)
         val totalTime: TextView = view.findViewById(R.id.totalTime)
+        val quantize: TextView = view.findViewById(R.id.quantized)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -51,6 +53,7 @@ class BenchmarkResultsAdapter(
             holder.headerProcessingTime.text = "Processing Time"
             holder.headerFps.text = "FPS"
             holder.headerTotalTime.text = "Total Time"
+            holder.headerQuantized.text = "Quantized"
         } else if (holder is ItemViewHolder) {
             // Bind data to the item
             val result = results[position - 1] // Adjust for header
@@ -58,6 +61,7 @@ class BenchmarkResultsAdapter(
             holder.processingTime.text = result.processingTime
             holder.fps.text = result.fps
             holder.totalTime.text = result.totalTime
+            holder.quantize.text = if (result.isQuantized) "Yes" else "No" // Show quantized info
         }
     }
 

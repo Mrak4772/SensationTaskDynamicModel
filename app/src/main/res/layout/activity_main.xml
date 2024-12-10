@@ -1,24 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!-- AppBar with Toolbar -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:title="Model Performance Test"
-            android:titleTextColor="@android:color/white"
-            app:layout_scrollFlags="scroll|enterAlways" />
-    </com.google.android.material.appbar.AppBarLayout>
+    android:layout_height="match_parent"
+    android:background="@color/auroraBackground">
 
     <!-- Main Content -->
     <LinearLayout
@@ -26,7 +12,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@color/auroraBlueBackground"> <!-- Blue background for content -->
+
+        <!-- Banner Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fau_logo"
+                android:contentDescription="FAU Logo"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Model Performance Test"
+                android:textColor="@color/auroraLightTextColor"
+                android:textSize="18sp"
+                android:gravity="center" />
+        </LinearLayout>
 
         <!-- Input Field for FAU Box URL -->
         <EditText
@@ -34,25 +44,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter FAU Box URL"
+            android:textColorHint="@color/auroraLightTextColor"
             android:layout_marginBottom="16dp"
             android:padding="12dp"
             android:minHeight="48dp"
-            android:background="@drawable/edit_text_background" />
+            android:background="@drawable/aurora_edit_text_background" />
 
         <!-- Button to Download Models -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/downloadButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Download Models"
-            android:layout_marginBottom="16dp" />
+            android:paddingVertical="12dp"
+            android:background="@drawable/round_button"
+            android:textColor="@color/auroraLightTextColor"
+            app:cornerRadius="8dp" />
 
         <!-- Button to Start Performance Test -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/startTestButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Start Performance Test" />
+            android:layout_marginVertical="10dp"
+            android:text="Start Performance Test"
+            android:paddingVertical="12dp"
+            android:background="@drawable/round_button"
+            android:textColor="@color/auroraLightTextColor"
+            app:cornerRadius="8dp" />
+
+        <!-- Progress Bar -->
         <ProgressBar
             android:id="@+id/downloadProgressBar"
             android:layout_width="match_parent"
@@ -60,15 +81,17 @@
             android:visibility="gone"
             android:max="100"
             style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="@color/auroraProgressBarTint" />
 
-            />
+        <!-- Text view for progress -->
         <TextView
             android:id="@+id/progressText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:text="Downloading..." />
+            android:text="Downloading..."
+            android:textColor="@color/auroraLightTextColor" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

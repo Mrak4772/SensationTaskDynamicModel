@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         val startTestButton = findViewById<Button>(R.id.startTestButton)
         progressBar = findViewById(R.id.downloadProgressBar)
         progressText = findViewById(R.id.progressText)
+
 
         downloadButton.setOnClickListener {
             val url = modelUrlInput.text.toString()
