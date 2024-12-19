@@ -16,7 +16,7 @@ Run Benchmark: Click "Start Test" to measure the performance of all models in th
 ## View Results:
 Results displayed in the app in a tabular format.
 Results saved in Downloads as a .csv file.
-![WhatsApp Image 2024-12-19 at 16 52 16](https://github.com/user-attachments/assets/62f36fba-14e4-4691-86dd-4b396b2ec813)
+![newapp2](https://github.com/user-attachments/assets/2c2accbf-98b7-411f-903e-b39da4881f58)
 
 ## Project Structure
 MainActivity.kt: Handles downloading and unzipping ONNX models.
