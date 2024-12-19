@@ -1,5 +1,6 @@
 # Benchmarking Performance Tool
 A benchmarking tool designed to evaluate the performance of ONNX models on mobile devices, using UNet++ models with MobileNetV3, EfficientNet-B0, and EfficientNet-B4 encoders.
+![WhatsApp Image 2024-12-19 at 16 52 16 (1)](https://github.com/user-attachments/assets/7e2e718c-2e29-40f6-8fb3-6ae56ca06c40)
 
 ## Features
 Benchmarks models based on:
@@ -15,6 +16,8 @@ Run Benchmark: Click "Start Test" to measure the performance of all models in th
 ## View Results:
 Results displayed in the app in a tabular format.
 Results saved in Downloads as a .csv file.
+![WhatsApp Image 2024-12-19 at 16 52 16](https://github.com/user-attachments/assets/62f36fba-14e4-4691-86dd-4b396b2ec813)
+
 ## Project Structure
 MainActivity.kt: Handles downloading and unzipping ONNX models.
 BenchmarkActivity.kt: Benchmarks models and displays results.
